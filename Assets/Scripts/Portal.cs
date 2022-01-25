@@ -9,13 +9,13 @@ public class Portal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("A");
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log(targetPortal.outPoint.position);
-            other.gameObject.GetComponent<>
+            other.gameObject.GetComponent<CharacterController>().enabled = false;
+
             other.gameObject.transform.position = targetPortal.outPoint.position;
 
+            other.gameObject.GetComponent<CharacterController>().enabled = true;
         }
     }
 }
