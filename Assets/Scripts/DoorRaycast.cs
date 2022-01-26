@@ -5,13 +5,67 @@ using UnityEngine.UI;
 
 public class DoorRaycast : MonoBehaviour
 {
-   [SeralizeField] Private int rayLength = 5;
-   [SeralizeField] Private Layer layerMaskInteract;
-   [SeralizeField] Private string excludeLayerName = null;
+   [SerializeField] int rayLength = 5;
+   [SerializeField] LayerMask layerMaskInteract;
+   [SerializeField] string excludeLayerName = null;
 
    private MyDoorController raycastedObj;
 
-   [SeralizeField] private KeyCode opeDoorKey = KeyCode.Mouse0;  
+   [SerializeField] private KeyCode openDoorKey = KeyCode.Mouse0;  
 
    [SerializeField] private Image crosshair = null;
+   private bool isCrosshairActive;
+   private bool doOnce;
+
+   private const string interactableTag = "InteractiveObject";
+
+   private void Update() 
+   {
+      RaycastHit hit;
+      Vector3 fwd = transform.TransformDirection(Vector3.forward);
+
+      int mask = 1 << LayerMask.NameToLayer(excludeLayerName) | layerMaskInteract.value;
+
+      if (Physics.Raycast(transform.position, fwd, out hit, rayLength, mask))
+      {
+        if (hit.collider.CompareTag(interactableTag)) 
+        {
+                Debug.Log("A");
+          if(!doOnce) 
+          {
+            raycastedObj = hit.collider.gameObject.GetComponent<MyDoorController>();
+            CrosshairChange(true);
+          }
+
+          isCrosshairActive = true;
+          doOnce = true;
+
+          if (Input.GetKeyDown(openDoorKey))
+          {
+            raycastedObj.PlayAnimation();
+          }
+        }
+      }
+     else 
+     {
+       if (isCrosshairActive) 
+       {
+         CrosshairChange(false);
+         doOnce = false;
+       }
+     }
+   }
+   
+   void CrosshairChange(bool on) 
+   {
+     if( on && !doOnce) 
+      {
+       crosshair.color = Color.red;
+      }
+      else 
+      {
+          crosshair.color = Color.white;
+          isCrosshairActive = false;
+      }
+   }
 }
