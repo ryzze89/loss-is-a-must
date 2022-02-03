@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Portal : MonoBehaviour
 {
+    [SerializeField] GameObject objectToHide;
     [SerializeField] string portalID;
     [SerializeField] string targetPortalID;
     Portal targetPortal;
@@ -29,6 +30,8 @@ public class Portal : MonoBehaviour
             other.gameObject.transform.position = targetPortal.outPoint.position;
 
             other.gameObject.GetComponent<CharacterController>().enabled = true;
+
+            objectToHide.SetActive(false);
         }
     }
 }
