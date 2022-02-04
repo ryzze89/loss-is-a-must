@@ -11,12 +11,16 @@ public class Portal : MonoBehaviour
     Portal targetPortal;
     [SerializeField] Transform outPoint;
     [SerializeField] string portalType;
+    LevelManager levelManager;
+    [SerializeField] int nextLevel;
 
     void Start()
     {
+        levelManager = GameObject.Find("Level Manager").GetComponent<LevelManager>();
         GameObject[] portals = GameObject.FindGameObjectsWithTag("Portal");
         if (portalType == "teleporter")
         {
+            levelManager.ShowAllLevels();
             targetPortal = Array.Find(portals, p => p.GetComponent<Portal>().portalID == targetPortalID).GetComponent<Portal>();
         }
     }
@@ -31,7 +35,9 @@ public class Portal : MonoBehaviour
 
             other.gameObject.GetComponent<CharacterController>().enabled = true;
 
-            objectToHide.SetActive(false);
+            levelManager.SwitchLevel(nextLevel);
+
+            //objectToHide.SetActive(false);
         }
     }
 }
