@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
 	[SerializeField] GameObject[] levelObjects;
+	[SerializeField] AudioSource[] audioSources;
 	int levelNum;
 
 	void Start()
@@ -12,6 +13,21 @@ public class LevelManager : MonoBehaviour
 		levelNum = 1;
 		ShowAllLevels();
 	}
+
+	void Update()
+    {
+		for (int i = 0; i < audioSources.Length; i++)
+        {
+			if (audioSources[i].volume > 0.0f && i+1 != levelNum)
+            {
+				audioSources[i].volume = 0.0f;
+            }
+			else if (audioSources[i].volume != 0.8f && i+1 == levelNum)
+            {
+				audioSources[i].volume = 0.8f;
+            }
+        }
+    }
 
 	public void SwitchLevel(int number)
 	{

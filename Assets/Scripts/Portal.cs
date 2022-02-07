@@ -37,6 +37,8 @@ public class Portal : MonoBehaviour
 
             levelManager.SwitchLevel(nextLevel);
 
+            targetPortal.gameObject.SetActive(false);
+
             //objectToHide.SetActive(false);
         }
     }
