@@ -3,7 +3,7 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
     [SerializeField] GameObject interactPrompt;
-    [SerializeField] GameObject key;
+    [SerializeField] GameObject mesh;
 
     void Start()
     {
@@ -20,7 +20,7 @@ public class Pickup : MonoBehaviour
             if (Input.GetKey(KeyCode.E))
             {
                 interactPrompt.SetActive(false);
-                key.SetActive(true);
+                mesh.SetActive(true);
                 Destroy(gameObject);
             }
         }
